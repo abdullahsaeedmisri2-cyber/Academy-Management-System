@@ -39,10 +39,14 @@ class Enrollment extends Pivot
 
     /**
      * Relationship: Attendance records for this specific enrollment.
+     *
+     * Attendance records are stored with `student_id` and `course_id`.
+     * We match both fields to fetch attendances for this enrollment.
      */
     public function attendances()
     {
-        return $this->hasMany(Attendance::class, 'enrollment_id');
+        return $this->hasMany(Attendance::class, 'student_id', 'student_id')
+                    ->where('course_id', $this->course_id);
     }
 
     /**
