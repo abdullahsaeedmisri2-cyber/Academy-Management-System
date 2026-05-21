@@ -21,6 +21,9 @@ class Enrollment extends Pivot
         'enrolled_at' => 'datetime',
     ];
 
+    protected $appends = ['user'];
+
+
     /**
      * Relationship: The student who is enrolled.
      */
@@ -35,6 +38,15 @@ class Enrollment extends Pivot
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+
+    /**
+     * Accessor: Get the user associated with this enrollment through the student.
+     * This allows $enrollment->user to work in views and controllers.
+     */
+    public function getUserAttribute()
+    {
+        return $this->student?->user;
     }
 
     /**
